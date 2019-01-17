@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.zbw.DAO.UserDAO">
+    <resultMap id="cu" type="user">
+        <id column="user_id" property="userId"/>
+        <result column="phone" property="phone"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="head" property="head"/>
+        <result column="dharma_name" property="dharmaName"/>
+        <result column="gender" property="gender"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="sign" property="sign"/>
+        <result column="status" property="status"/>
+        <result column="regist_date" property="registDate"/>
+        <result column="salt" property="salt"/>
+
+    </resultMap>
+
+    <select id="selectUsers" resultMap="cu" >
+		select user_id,phone,name,password,head,dharma_name,gender,province,city,sign,status,regist_date,salt from c_user
+	</select>
+    <select id="selectMonth" resultType="String">
+		select  month(regist_date) as month from c_user where year(regist_date) = 2019 and gender = #{gender} group by month (regist_date)
+	</select>
+    <select id="selectCount" resultType="Integer">
+		select COUNT(*) from c_user where year(regist_date) = 2019 and gender = #{gender}  group by month (regist_date)
+	</select>
+</mapper>

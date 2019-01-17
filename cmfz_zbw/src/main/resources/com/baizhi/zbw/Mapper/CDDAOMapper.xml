@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.zbw.DAO.CDDAO">
+    <sql id="acS">
+		select a.album_id,a.title,a.cover_path,a.count,a.score,a.author,a.teller,a.pulish_date,a.brief,c.chapter_id,c.name,c.size,c.src
+		from c_album a LEFT OUTER JOIN c_chapter c
+		on c.album_id = a.album_id
+	</sql>
+    <resultMap id="ac"  type="album">
+        <id column="album_id" property="id"/>
+        <result column="title" property="name"/>
+        <result column="cover_path" property="coverPath"/>
+        <result column="count" property="count"/>
+        <result column="score" property="score"/>
+        <result column="author" property="author"/>
+        <result column="teller" property="teller"/>
+        <result column="pulish_date" property="pulishDate"/>
+        <result column="brief" property="brief"/>
+        <collection property="children" ofType="chapter">
+            <id column="chapter_id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="size" property="size"/>
+            <result column="src" property="src"/>
+        </collection>
+    </resultMap>
+    <select id="selectAllDao" resultMap="ac">
+        <include refid="acS"/>
+    </select>
+    <insert id="addAlbum">
+		insert into c_album values(#{id},#{name},#{coverPath},#{count},#{score},#{author},#{teller},#{pulishDate},#{brief})
+	</insert>
+    <insert id="addChapter">
+		insert into c_chapter values(#{chapter.id},#{chapter.name},#{chapter.size},#{chapter.src},#{albumId})
+	</insert>
+</mapper>
